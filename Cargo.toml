@@ -1,6 +1,6 @@
 [package]
 name = "volscan"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Triet Trinh <contact@trinhminhtriet.com>"]
 edition = "2018"
 readme = "README.md"
