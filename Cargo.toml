@@ -8,8 +8,8 @@ description = "🚀 VolScan: High-speed, multi-threaded disk scanner providing d
 repository = "https://github.com/trinhminhtriet/volscan"
 homepage = "https://trinhminhtriet.com"
 license = "MIT"
-keywords = ["disk", "scanner", "multi-threaded", "JSON", "CSV"]
-categories = ["filesystem", "utilities"]
+keywords = ["disk", "scanner", "multi-threaded", "json", "csv"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 structopt = "0.3.21"
