@@ -71,6 +71,79 @@ SUBCOMMANDS:
 
 ```
 
+## Scan a directory
+
+You can start scanning a directory by executing:
+
+`volscan scan [PATH] --output=[OUTPUT]`
+
+This will scan `[PATH]` and output all results, in JSON format, to `[OUTPUT]`. By default it will use a thread pool with
+`2 * number_of_cores` threads, but you can customize this. Depending on your disk speed the number of threads can
+drastically improve performance:
+
+`volscan scan [PATH] --output=[OUTPUT] --threads=20`
+
+You can also output the results in CSV:
+
+`volscan scan [PATH] --output=[OUTPUT] --format=csv`
+
+```
+$ volscan scan ~/ --output=output.json --threads=20
+[00:00:15] Files/s: 17324/s | Total: 258734 | Size: 99.01GB | Components: 14291 | Errors: IO=0 Other=36
+```
+
+## Stream results
+
+You can stream all files to stdout by executing:
+
+`volscan stream [PATH]`
+
+If you wanted to remove all files in a disk in parallel, you could create a pipeline like:
+
+`volscan stream /my-dir | xargs -d ‘\n’ -L10 -P500`
+
+This would launch up to 500 `rm` processes, each deleting 10 files.
+
+## Inspect results
+
+Once a scan is complete you can inspect the output using:
+
+`volscan parse [OUTPUT]`
+
+For example:
+
+```
+$ volscan parse output.json --prefix=/System/
+[00:00:02] Total: 580000 | Per sec: 220653/s
++----------------------+---------+----------+-------------+-------------+-------------+
+| Prefix               | Files   | Size     | created     | accessed    | modified    |
++----------------------+---------+----------+-------------+-------------+-------------+
+| /System/Applications | 57304   | 777.28MB | 2 weeks ago | 2 weeks ago | 2 weeks ago |
+| /System/DriverKit    | 55      | 5.09MB   | 2 weeks ago | 2 weeks ago | 2 weeks ago |
+| /System/Library      | 292190  | 13.56GB  | 7 hours ago | 1 hour ago  | 7 hours ago |
+| /System/Volumes      | 1468296 | 197.93GB | 1 hour ago  | 1 hour ago  | 1 hour ago  |
+| /System/iOSSupport   | 13856   | 600.20MB | 2 weeks ago | 2 weeks ago | 2 weeks ago |
++----------------------+---------+----------+-------------+-------------+-------------+
+```
+
+You can include more directories with the `--depth` flag, or change the prefix search with `--prefix`.
+
+You can also order the results by `name` (the default), `size` or `files`:
+
+```
+$ volscan parse output.json --prefix=/System/ --sort=size
+[00:00:02] Total: 580000 | Per sec: 220653/s
++----------------------+---------+----------+-------------+-------------+-------------+
+| Prefix               | Files   | Size     | created     | accessed    | modified    |
++----------------------+---------+----------+-------------+-------------+-------------+
+| /System/Volumes      | 1468296 | 197.93GB | 2 hours ago | 2 hours ago | 2 hours ago |
+| /System/Library      | 292190  | 13.56GB  | 7 hours ago | 2 hours ago | 7 hours ago |
+| /System/Applications | 57304   | 777.28MB | 2 weeks ago | 2 weeks ago | 2 weeks ago |
+| /System/iOSSupport   | 13856   | 600.20MB | 2 weeks ago | 2 weeks ago | 2 weeks ago |
+| /System/DriverKit    | 55      | 5.09MB   | 2 weeks ago | 2 weeks ago | 2 weeks ago |
++----------------------+---------+----------+-------------+-------------+-------------+
+```
+
 ## 🗑️ Uninstallation
 
 Running the below command will globally uninstall the `volscan` binary.
