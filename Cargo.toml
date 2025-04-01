@@ -22,7 +22,7 @@ jwalk = "0.8.1"
 num_cpus = "1.16.0"
 indicatif = "0.17.9"
 console = "0.15.10"
-indexmap = "1.6.2"
+indexmap = "2.8.0"
 filesize = "0.2.0"
 prettytable-rs = "0.10.0"
 chrono = { version = "0.4.19", features = ["serde"] }
