@@ -25,7 +25,7 @@ console = "0.15.10"
 indexmap = "2.11.0"
 filesize = "0.2.0"
 prettytable-rs = "0.10.0"
-chrono = { version = "0.4.41", features = ["serde"] }
+chrono = { version = "0.4.42", features = ["serde"] }
 chrono-humanize = "0.2.3"
 
 [target.'cfg(target_family = "unix")'.dependencies]
